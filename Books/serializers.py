@@ -1,4 +1,6 @@
 from rest_framework import serializers
+from rest_framework.relations import StringRelatedField
+
 from .models import Book, Author, Category
 
 
@@ -28,7 +30,7 @@ class CategorySerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
-class BookSerializer(serializers.ModelSerializer):
+class BookDetailSerializer(serializers.ModelSerializer):
     """
     Serializer for Book model
     """
@@ -38,3 +40,15 @@ class BookSerializer(serializers.ModelSerializer):
     class Meta:
         model = Book
         fields = ('title', 'authors', 'published_date', 'categories', 'average_rating', 'ratings_count', 'thumbnail')
+
+
+class BookSerializer(serializers.ModelSerializer):
+    """
+    Serializer for Book model
+    """
+
+    authors = AuthorSerializer(many=True)
+
+    class Meta:
+        model = Book
+        fields = ('title', 'authors', 'published_date')
