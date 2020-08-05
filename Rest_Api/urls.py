@@ -22,5 +22,5 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('books/', views.BookView.as_view()),
     path('books/<int:id>', views.BookDetails.as_view()),
-
+    path('db', views.DatabaseImport.as_view()),
 ]

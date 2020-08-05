@@ -1,12 +1,7 @@
-import json
-import urllib.request
-
 from django.http import HttpResponse
-from django.shortcuts import render
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import generics, filters, status
 from rest_framework.response import Response
-from rest_framework.status import HTTP_200_OK
 from rest_framework.views import APIView
 
 from Books.models import Book
@@ -14,6 +9,11 @@ from Books.serializers import BookSerializer, BookDetailSerializer
 
 
 class BookView(generics.ListAPIView):
+    """
+    API displaying a list of all books,
+    allowing to filter and sort result by published date and filter by author name.
+    """
+
     queryset = Book.objects.all()
     serializer_class = BookSerializer
     filter_backends = [filters.OrderingFilter, DjangoFilterBackend]
@@ -23,12 +23,13 @@ class BookView(generics.ListAPIView):
 
 class BookDetails(APIView):
     """
-
+    API displaying details of a single book
     """
 
     def get_object(self, id):
         """
-
+        function checking if database contains book with certain id,
+        and returning wanted object
         """
         try:
             return Book.objects.get(pk=id)
@@ -41,3 +42,6 @@ class BookDetails(APIView):
 
         return Response(serializer.data)
 
+
+class DatabaseImport(APIView):
+    pass

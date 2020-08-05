@@ -1,5 +1,4 @@
 from rest_framework import serializers
-from rest_framework.relations import StringRelatedField
 
 from .models import Book, Author, Category
 
@@ -32,7 +31,7 @@ class CategorySerializer(serializers.ModelSerializer):
 
 class BookDetailSerializer(serializers.ModelSerializer):
     """
-    Serializer for Book model
+    Serializer for Book model, used in a detail view
     """
     categories = CategorySerializer(many=True)
     authors = AuthorSerializer(many=True)
@@ -44,7 +43,7 @@ class BookDetailSerializer(serializers.ModelSerializer):
 
 class BookSerializer(serializers.ModelSerializer):
     """
-    Serializer for Book model
+    Serializer for Book model, used in a list view
     """
 
     authors = AuthorSerializer(many=True)
