@@ -30,15 +30,25 @@ class CategorySerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
-class BookSerializer(serializers.ModelSerializer):
+class BookDetailSerializer(serializers.ModelSerializer):
     """
     Serializer for Book model
     """
-    # categories = CategorySerializer(many=True)
-    categories = StringRelatedField(many=True)
-    authors = StringRelatedField(many=True)
-    # authors = AuthorSerializer(many=True)
+    categories = CategorySerializer(many=True)
+    authors = AuthorSerializer(many=True)
 
     class Meta:
         model = Book
         fields = ('title', 'authors', 'published_date', 'categories', 'average_rating', 'ratings_count', 'thumbnail')
+
+
+class BookSerializer(serializers.ModelSerializer):
+    """
+    Serializer for Book model
+    """
+
+    authors = AuthorSerializer(many=True)
+
+    class Meta:
+        model = Book
+        fields = ('title', 'authors', 'published_date')

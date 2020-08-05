@@ -1,15 +1,16 @@
 import json
 import urllib.request
 
+from django.http import HttpResponse
 from django.shortcuts import render
 from django_filters.rest_framework import DjangoFilterBackend
-from rest_framework import generics, filters
+from rest_framework import generics, filters, status
 from rest_framework.response import Response
 from rest_framework.status import HTTP_200_OK
 from rest_framework.views import APIView
 
 from Books.models import Book
-from Books.serializers import BookSerializer
+from Books.serializers import BookSerializer, BookDetailSerializer
 
 
 class BookView(generics.ListAPIView):
@@ -20,18 +21,23 @@ class BookView(generics.ListAPIView):
     filterset_fields = ['published_date', 'authors']
 
 
-class ListBooks(APIView):
-    """
-    View to list all users in the system.
-
-    * Requires token authentication.
-    * Only admin users are able to access this view.
+class BookDetails(APIView):
     """
 
-    def get(self, request, format=None):
+    """
+
+    def get_object(self, id):
         """
-        Return a list of all users.
+
         """
-        books = [book.title for book in Book.objects.all()]
-        return Response(books)
+        try:
+            return Book.objects.get(pk=id)
+        except Book.DoesNotExist:
+            return HttpResponse(status=status.HTTP_404_NOT_FOUND)
+
+    def get(self, request, id):
+        book = self.get_object(id)
+        serializer = BookDetailSerializer(book)
+
+        return Response(serializer.data)
 
