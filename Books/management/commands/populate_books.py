@@ -2,7 +2,6 @@ import json
 
 from django.core.management.base import BaseCommand
 
-
 import urllib.request
 
 from Books.models import Book, Author, Category
@@ -10,8 +9,9 @@ from Books.models import Book, Author, Category
 
 class Command(BaseCommand):
     """
-    store movies data from provided dump
+    import books data from url
     """
+
     def handle(self, *args, **options):
         with urllib.request.urlopen("https://www.googleapis.com/books/v1/volumes?q=Hobbit") as url:
             data = json.loads(url.read().decode())
