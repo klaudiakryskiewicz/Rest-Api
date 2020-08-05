@@ -14,6 +14,6 @@ class Book(models.Model):
     authors = models.ManyToManyField(Author)
     published_date = models.IntegerField()
     categories = models.ManyToManyField(Category)
-    average_rating = models.IntegerField()
-    ratings_count = models.IntegerField()
+    average_rating = models.IntegerField(null=True)
+    ratings_count = models.IntegerField(null=True)
     thumbnail = models.CharField(max_length=300)
