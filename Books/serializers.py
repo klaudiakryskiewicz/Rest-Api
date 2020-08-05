@@ -7,6 +7,9 @@ class AuthorSerializer(serializers.ModelSerializer):
     Serializer for Author model
     """
 
+    def to_representation(self, value):
+        return value.name
+
     class Meta:
         model = Author
         fields = '__all__'
@@ -16,6 +19,9 @@ class CategorySerializer(serializers.ModelSerializer):
     """
     Serializer for Category model
     """
+
+    def to_representation(self, value):
+        return value.name
 
     class Meta:
         model = Category
