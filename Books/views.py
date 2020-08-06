@@ -2,14 +2,11 @@ import json
 import urllib.request
 
 from django.http import HttpResponse
-from django.shortcuts import render, redirect
-from django.urls import reverse_lazy
 from django_filters.rest_framework import DjangoFilterBackend
-from rest_framework import generics, filters, status, permissions
+from rest_framework import generics, filters, status
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from Books.forms import BookImportForm
 from Books.models import Book, Author, Category
 from Books.serializers import BookSerializer, BookDetailSerializer, DatabaseSerializer
 
