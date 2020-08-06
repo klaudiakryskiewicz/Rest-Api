@@ -14,7 +14,7 @@ from Books.models import Book, Author, Category
 from Books.serializers import BookSerializer, BookDetailSerializer
 
 
-class BookView(generics.ListAPIView):
+class BookListView(generics.ListAPIView):
     """
     API displaying a list of all books,
     allowing to filter and sort result by published date and filter by author name.
@@ -57,12 +57,10 @@ class DatabaseImport(APIView):
 
     def post(self, request):
         query = request.POST['query']
-        # for book in Book.objects.all():
-        #     book.delete()
+
         with urllib.request.urlopen(f"https://www.googleapis.com/books/v1/volumes?q={query}") as url:
             data = json.loads(url.read().decode())
             print(data)
-            k = {}
             for book, book_item in zip(Book.objects.all(), data['items']):
                 book.title = book_item['volumeInfo'].get('title')
                 book.published_date = int(book_item['volumeInfo'].get('publishedDate')[:4])
@@ -84,4 +82,5 @@ class DatabaseImport(APIView):
                         category, created = Category.objects.get_or_create(name=name)
                         book.categories.add(category)
                 book.save()
-        return redirect(reverse_lazy('list'))
+        # return redirect(reverse_lazy('list'))
+        return render(request, 'import.html')
