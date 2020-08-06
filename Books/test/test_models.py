@@ -5,6 +5,7 @@ from faker import Faker
 
 faker = Faker("pl_PL")
 
+
 def create_book():
     return Book.objects.get_or_create(
         title=faker.file_name(),
@@ -13,6 +14,7 @@ def create_book():
         ratings_count=faker.pyint(),
         thumbnail=faker.url(),
     )
+
 
 @pytest.mark.django_db
 def test_book_create():

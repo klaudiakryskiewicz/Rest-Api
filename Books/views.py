@@ -1,11 +1,9 @@
 import json
 import urllib.request
 
-from django.core.exceptions import ObjectDoesNotExist
-from django.http import HttpResponse
 from django.shortcuts import get_object_or_404
 from django_filters.rest_framework import DjangoFilterBackend
-from rest_framework import generics, filters, status
+from rest_framework import generics, filters
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
@@ -31,16 +29,6 @@ class BookDetails(APIView):
     API displaying details of a single book
     """
 
-    def get_object(self, id):
-        """
-        function checking if database contains book with certain id,
-        and returning wanted object
-        """
-        try:
-            Book.objects.ge(pk=id)
-        except Book.DoesNotExist:
-            return HttpResponse(status=status.HTTP_404_NOT_FOUND)
-
     def get(self, request, id):
         book = get_object_or_404(Book, pk=id)
         serializer = BookDetailSerializer(book)
@@ -49,7 +37,6 @@ class BookDetails(APIView):
 
 
 class DatabaseImport(APIView):
-
 
     def post(self, request):
         serializer = DatabaseSerializer(data=request.data)
