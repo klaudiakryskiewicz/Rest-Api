@@ -51,3 +51,7 @@ class BookSerializer(serializers.ModelSerializer):
     class Meta:
         model = Book
         fields = ('title', 'authors', 'published_date')
+
+
+class DatabaseSerializer(serializers.Serializer):
+    q = serializers.CharField(required=True)

@@ -5,13 +5,13 @@ from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django_filters.rest_framework import DjangoFilterBackend
-from rest_framework import generics, filters, status
+from rest_framework import generics, filters, status, permissions
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from Books.forms import BookImportForm
 from Books.models import Book, Author, Category
-from Books.serializers import BookSerializer, BookDetailSerializer
+from Books.serializers import BookSerializer, BookDetailSerializer, DatabaseSerializer
 
 
 class BookListView(generics.ListAPIView):
@@ -51,12 +51,12 @@ class BookDetails(APIView):
 
 class DatabaseImport(APIView):
 
-    def get(self, request):
-        form = BookImportForm
-        return render(request, 'import.html', {'form': form})
 
     def post(self, request):
-        query = request.POST['query']
+        serializer = DatabaseSerializer(data=request.data)
+
+        serializer.is_valid(raise_exception=True)
+        query = serializer.data["q"]
 
         with urllib.request.urlopen(f"https://www.googleapis.com/books/v1/volumes?q={query}") as url:
             data = json.loads(url.read().decode())
@@ -82,5 +82,4 @@ class DatabaseImport(APIView):
                         category, created = Category.objects.get_or_create(name=name)
                         book.categories.add(category)
                 book.save()
-        # return redirect(reverse_lazy('list'))
-        return render(request, 'import.html')
+        return Response("Database updated")
