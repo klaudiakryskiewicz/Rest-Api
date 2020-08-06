@@ -21,6 +21,6 @@ from Books import views
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('books/', views.BookListView.as_view(), name='list'),
-    path('books/<int:id>/', views.BookDetails.as_view()),
-    path('db/', views.DatabaseImport.as_view()),
+    path('books/<int:id>/', views.BookDetails.as_view(), name='details'),
+    path('db/', views.DatabaseImport.as_view(), name='import'),
 ]

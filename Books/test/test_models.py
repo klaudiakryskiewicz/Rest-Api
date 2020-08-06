@@ -5,16 +5,18 @@ from faker import Faker
 
 faker = Faker("pl_PL")
 
-
-@pytest.mark.django_db
-def test_book_create():
-    Book.objects.get_or_create(
+def create_book():
+    return Book.objects.get_or_create(
         title=faker.file_name(),
         published_date=faker.year(),
         average_rating=faker.pyfloat(),
         ratings_count=faker.pyint(),
         thumbnail=faker.url(),
     )
+
+@pytest.mark.django_db
+def test_book_create():
+    create_book()
     assert Book.objects.count() == 1
 
 
