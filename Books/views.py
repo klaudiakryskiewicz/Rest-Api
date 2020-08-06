@@ -57,21 +57,22 @@ class DatabaseImport(APIView):
 
     def post(self, request):
         query = request.POST['query']
-        for book in Book.objects.all():
-            book.delete()
+        # for book in Book.objects.all():
+        #     book.delete()
         with urllib.request.urlopen(f"https://www.googleapis.com/books/v1/volumes?q={query}") as url:
             data = json.loads(url.read().decode())
             print(data)
             k = {}
-            for book_item in data['items']:
-                k['title'] = book_item['volumeInfo'].get('title')
-                k['published_date'] = int(book_item['volumeInfo'].get('publishedDate')[:4])
-                k['average_rating'] = book_item['volumeInfo'].get('averageRating', None)
-                k['ratings_count'] = book_item['volumeInfo'].get('ratingsCount', None)
-                k['thumbnail'] = book_item['volumeInfo']['imageLinks'].get('thumbnail')
-                book, created = Book.objects.get_or_create(**k)
+            for book, book_item in zip(Book.objects.all(), data['items']):
+                book.title = book_item['volumeInfo'].get('title')
+                book.published_date = int(book_item['volumeInfo'].get('publishedDate')[:4])
+                book.average_rating = book_item['volumeInfo'].get('averageRating', None)
+                book.ratings_count = book_item['volumeInfo'].get('ratingsCount', None)
+                book.thumbnail = book_item['volumeInfo']['imageLinks'].get('thumbnail')
                 author_list = book_item['volumeInfo'].get('authors')
                 category_list = book_item['volumeInfo'].get('categories')
+                book.categories.clear()
+                book.authors.clear()
 
                 for name in author_list:
                     name = name.strip()
