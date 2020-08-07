@@ -2,6 +2,8 @@ asgiref==3.2.10
 Django==3.1
 django-filter==2.3.0
 djangorestframework==3.11.1
+django-heroku==0.3.1
+psycopg2==2.7.5
 psycopg2-binary==2.8.5
 pytest==6.0.1
 pytest-django==3.9.0
