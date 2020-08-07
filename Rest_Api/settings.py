@@ -25,9 +25,9 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = ')6tr$&-*@^c7cq3c1o^e8wf)togiq%(a5qbje#)=3po!cmj^=)'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
-ALLOWED_HOSTS = ['https://kkryskiewicz-books.herokuapp.com/', '127.0.0.1']
+ALLOWED_HOSTS = ['https://kkryskiewicz-books.herokuapp.com/', '127.0.0.1:8000']
 
 # Application definition
 
