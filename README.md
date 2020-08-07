@@ -19,3 +19,4 @@ App allows to update list of books: http://127.0.0.1:8000/db with body {"q":"<pa
 
 Code contains tests written with pytest. To run them, enter pytest in the terminal
 
+App on Heroku: https://kkryskiewicz-books.herokuapp.com/books/
