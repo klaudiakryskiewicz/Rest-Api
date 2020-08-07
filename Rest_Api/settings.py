@@ -12,7 +12,6 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 
 import os
 
-# Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import django_heroku
 import dj_database_url
 
@@ -88,9 +87,6 @@ DATABASES = {
         'PORT': 5432
     }
 }
-
-# db_from_env = dj_database_url.config(conn_max_age=600)
-# DATABASES['default'].update(db_from_env)
 
 if os.environ.get('DATABASE_URL'):
     DATABASES['default'] = dj_database_url.config(default=os.environ['DATABASE_URL'])
